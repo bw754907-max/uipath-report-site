@@ -71,16 +71,33 @@
       </div>
     </div>
 
-    <!-- Update the href to point to your Excel file path (same directory or subdirectory) -->
+    <!-- Use absolute path with version query to avoid cache issues -->
     <div class="btns">
-      <a class="btn btn-primary" href="files/report.xlsx" download>
+      <a id="downloadLink" class="btn btn-primary" href="Files/Report.xlsx" download>
         ⬇️ Download Excel
       </a>
       <a class="btn btn-ghost" href="#how" onclick="document.getElementById('how').scrollIntoView({behavior:'smooth'});return false;">How to replace my file?</a>
     </div>
 
+    <script>
+      (function () {
+        try {
+          var a = document.getElementById('downloadLink');
+          if (!a) return;
+          var isGithubPages = location.hostname.endsWith('github.io');
+          if (isGithubPages) {
+            // Use absolute path on GitHub Pages to avoid routing/caching issues
+            a.href = '/uipath-report-site/Files/Report.xlsx?v=1';
+          } else {
+            // Use relative path for local preview (file:// or localhost)
+            a.href = 'Files/Report.xlsx';
+          }
+        } catch (e) { /* no-op */ }
+      })();
+    </script>
+
     <div class="meta">
-      <div class="tag"><span>File Name</span><strong>report.xlsx</strong></div>
+      <div class="tag"><span>File Name</span><strong>Report.xlsx</strong></div>
       <div class="tag"><span>Last Updated</span><strong>2025-09-08</strong></div>
       <div class="tag"><span>Purpose</span><strong>Sales Daily / Weekly Report Example</strong></div>
     </div>
@@ -88,11 +105,11 @@
     <section id="how">
       <h2 style="font-size:18px;margin:6px 0 8px;">How to replace with your own Excel</h2>
       <ol style="margin:0 0 0 18px; padding:0 0 0 6px; line-height:1.7;">
-        <li>Place your <code>.xlsx</code> file in the same directory as this page or in the <code>files/</code> subfolder.</li>
-        <li>Change the <code>href</code> in the button above to your file path, e.g. <code>href="yourfile.xlsx"</code> or <code>href="files/BossReport.xlsx"</code>.</li>
+        <li>Place your <code>.xlsx</code> file in the same directory as this page or in the <code>Files/</code> subfolder.</li>
+        <li>Change the <code>href</code> in the button above to your file path, e.g. <code>href="yourfile.xlsx"</code> or <code>href="Files/BossReport.xlsx"</code>.</li>
         <li>Keep the <code>download</code> attribute in the <code>&lt;a&gt;</code> tag so the browser triggers a direct download.</li>
       </ol>
-      <p class="note">Tip: If you host on GitHub Pages / Netlify, these static files will be directly available for download.</p>
+      <p class="note">Tip: When using GitHub Pages / Netlify, use absolute path starting with your repository name and add <code>?v=1</code> (or another version) to avoid caching issues.</p>
     </section>
 
     <div class="footer">
